@@ -1,9 +1,11 @@
 package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.dto.request.NewUserRequestDto;
+import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.exception.InvalidRequestException;
 import com.pragma.powerup.application.handler.impl.UserHandler;
 import com.pragma.powerup.application.mapper.IUserRequestMapper;
+import com.pragma.powerup.application.mapper.IUserResponseMapper;
 import com.pragma.powerup.domain.api.IUserServicePort;
 import com.pragma.powerup.domain.model.UserModel;
 import org.junit.jupiter.api.Assertions;
@@ -31,6 +33,8 @@ class UserHandlerTest {
 
     @Mock
     private IUserRequestMapper userRequestMapper;
+    @Mock
+    private IUserResponseMapper userResponseMapper;
 
     @BeforeEach
     public void setUp() {
@@ -156,5 +160,19 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 )
         );
+    }
+
+    @Test
+    void getUserById(){
+        Long userId = 1L;
+        UserModel user = new UserModel();
+        user.setId(userId);
+        when(userServicePort.getUserById(userId)).thenReturn(user);
+        UserResponse userResponse = new UserResponse();
+        when(userResponseMapper.toUserResponse(any(UserModel.class))).thenReturn(userResponse);
+        UserResponse result = userHandler.getUserById(userId);
+        verify(userServicePort, times(1)).getUserById(userId);
+        verify(userResponseMapper, times(1)).toUserResponse(user);
+        Assertions.assertEquals(userResponse, result);
     }
 }

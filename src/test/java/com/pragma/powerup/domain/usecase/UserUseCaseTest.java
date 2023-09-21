@@ -83,4 +83,11 @@ class UserUseCaseTest {
         });
     }
 
+    @Test
+    void getUserById(){
+        Long id = 2L;
+        userUseCase.getUserById(id);
+        verify(userPersistencePort, Mockito.times(1)).getUserById(id);
+    }
+
 }

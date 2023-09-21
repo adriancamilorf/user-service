@@ -27,4 +27,5 @@ public class BeanConfiguration {
     public IUserServicePort userServicePort() {
         return new UserUseCase(userPersistencePort(), passwordEncoder);
     }
+
 }
