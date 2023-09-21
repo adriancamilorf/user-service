@@ -15,6 +15,12 @@ public class ControllerAdvisor {
 
     private static final String MESSAGE = "message";
 
+    @ExceptionHandler(NoDataFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNoDataFoundException(
+            NoDataFoundException ignoredNoDataFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.NO_DATA_FOUND.getMessage()));
+    }
     @ExceptionHandler(UnderAgeException.class)
     public ResponseEntity<Map<String, String>> handleUnderAgeException(UnderAgeException underAgeException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)

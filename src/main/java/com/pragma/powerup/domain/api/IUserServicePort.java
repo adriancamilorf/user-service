@@ -6,4 +6,7 @@ public interface IUserServicePort {
 
     void saveOwner(UserModel owner);
 
+    UserModel getUserById(Long id);
+
+
 }

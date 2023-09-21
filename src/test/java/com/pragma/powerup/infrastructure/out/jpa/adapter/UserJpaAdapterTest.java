@@ -136,13 +136,37 @@ class UserJpaAdapterTest {
                 .password("12323122123")
                 .lastName("Rodriguez")
                 .build();
-        when(userRepository.findByPhone(anyString())).thenReturn(Optional.of(userEntity)); // Simula un duplicado
+        when(userRepository.findByPhone(anyString())).thenReturn(Optional.of(userEntity));
 
         Assertions.assertThrows(PhoneAlreadyExistException.class, () -> {
             userJpaAdapter.saveOwner(userModel);
         });
 
         verify(userRepository, never()).save(any());
+    }
+
+    @Test
+    void testGetUserById() {
+        Long userId = 1L;
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(userId);
+        UserModel userModel = new UserModel();
+        when(userRepository.findById(userId)).thenReturn(Optional.of(userEntity));
+        when(userEntityMapper.toUserModel(userEntity)).thenReturn(userModel);
+        UserModel result = userJpaAdapter.getUserById(userId);
+        verify(userRepository, times(1)).findById(userId);
+        verify(userEntityMapper, times(1)).toUserModel(userEntity);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals(userModel, result);
+    }
+
+    @Test
+    void testGetUserById_UserNotFound() {
+        Long userId = 1L;
+        when(userRepository.findById(userId)).thenReturn(Optional.empty());
+        UserModel result = userJpaAdapter.getUserById(userId);
+        verify(userRepository, times(1)).findById(userId);
+        Assertions.assertNull(result);
     }
 
 }

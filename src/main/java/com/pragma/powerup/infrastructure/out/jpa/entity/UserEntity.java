@@ -30,7 +30,7 @@ public class UserEntity {
     private String email;
     @Column(nullable = false)
     private String password;
-    @ManyToOne(optional = true)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "id_role")
     private RoleEntity idRole;
 }

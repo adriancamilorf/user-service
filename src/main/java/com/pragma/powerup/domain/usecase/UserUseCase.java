@@ -34,6 +34,11 @@ public class UserUseCase implements IUserServicePort {
         }
     }
 
+    @Override
+    public UserModel getUserById(Long id) {
+        return userPersistencePort.getUserById(id);
+    }
+
     private boolean isOver18YearsOld(LocalDate birthdate) {
         LocalDate now = LocalDate.now();
         int age = Period.between(birthdate, now).getYears();
