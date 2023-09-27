@@ -58,7 +58,7 @@ class UserUseCaseTest {
 
         verify(passwordEncoder).encodePassword("12323122123");
 
-        verify(userPersistencePort, Mockito.times(1)).saveOwner(userModel);
+        verify(userPersistencePort, Mockito.times(1)).saveUser(userModel);
     }
 
     @Test
@@ -88,6 +88,31 @@ class UserUseCaseTest {
         Long id = 2L;
         userUseCase.getUserById(id);
         verify(userPersistencePort, Mockito.times(1)).getUserById(id);
+    }
+
+    @Test
+    void testSaveEmployee() throws Exception {
+        RoleModel roleModel = RoleModel.builder()
+                .id(4L)
+                .build();
+
+        when(passwordEncoder.encodePassword("12323122123")).thenReturn("encodedPassword");
+
+        UserModel userModel = UserModel.builder()
+                .name("adrian")
+                .documentNumber("1007321243")
+                .roleModel(roleModel)
+                .email("adrean@mail.com")
+                .phone("3137623509")
+                .password("12323122123")
+                .lastName("Rodriguez")
+                .build();
+
+        userUseCase.saveEmployee(userModel);
+
+        verify(passwordEncoder).encodePassword("12323122123");
+
+        verify(userPersistencePort, Mockito.times(1)).saveUser(userModel);
     }
 
 }

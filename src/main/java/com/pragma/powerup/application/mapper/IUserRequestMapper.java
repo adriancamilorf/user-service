@@ -1,10 +1,9 @@
 package com.pragma.powerup.application.mapper;
 
-import com.pragma.powerup.application.dto.request.NewUserRequestDto;
-import com.pragma.powerup.application.dto.response.UserResponse;
+import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup.domain.model.UserModel;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(componentModel = "spring",
@@ -12,5 +11,6 @@ import org.mapstruct.ReportingPolicy;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IUserRequestMapper {
 
-    UserModel toUserModel(NewUserRequestDto newUser);
+    UserModel toUserModel(OwnerRequestDto ownerRequestDto);
+    UserModel toUserModel(EmployeeRequestDto employeeRequestDto);
 }

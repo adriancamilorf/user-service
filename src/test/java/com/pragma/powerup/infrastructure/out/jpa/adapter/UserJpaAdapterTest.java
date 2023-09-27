@@ -43,7 +43,7 @@ class UserJpaAdapterTest {
     }
 
     @Test
-    void testSaveOwnerSuccess() {
+    void testSaveUserSuccess() {
         RoleModel roleModel = RoleModel.builder()
                 .id(2L)
                 .build();
@@ -61,7 +61,7 @@ class UserJpaAdapterTest {
         when(userRepository.findByDocumentNumber(anyString())).thenReturn(Optional.empty());
         when(userRepository.findByPhone(anyString())).thenReturn(Optional.empty());
 
-        userJpaAdapter.saveOwner(userModel);
+        userJpaAdapter.saveUser(userModel);
 
         verify(userRepository, times(1)).save(any());
 
@@ -71,7 +71,7 @@ class UserJpaAdapterTest {
     }
 
     @Test
-    void testSaveOwnerEmailAlreadyExist() {
+    void testSaveUserEmailAlreadyExist() {
         UserEntity userEntity = new UserEntity();
         RoleModel roleModel = RoleModel.builder()
                 .id(2L)
@@ -90,7 +90,7 @@ class UserJpaAdapterTest {
                 .thenReturn(Optional.of(userEntity)) ;
 
         Assertions.assertThrows(EmailAlreadyExistException.class, () -> {
-            userJpaAdapter.saveOwner(userModel);
+            userJpaAdapter.saveUser(userModel);
         });
 
         verify(userRepository, never()).save(any());
@@ -115,7 +115,7 @@ class UserJpaAdapterTest {
         when(userRepository.findByDocumentNumber(anyString())).thenReturn(Optional.of(userEntity));
 
         Assertions.assertThrows(DocumentNumberAlreadyExistException.class, () -> {
-            userJpaAdapter.saveOwner(userModel);
+            userJpaAdapter.saveUser(userModel);
         });
         verify(userRepository, never()).save(any());
     }
@@ -139,7 +139,7 @@ class UserJpaAdapterTest {
         when(userRepository.findByPhone(anyString())).thenReturn(Optional.of(userEntity));
 
         Assertions.assertThrows(PhoneAlreadyExistException.class, () -> {
-            userJpaAdapter.saveOwner(userModel);
+            userJpaAdapter.saveUser(userModel);
         });
 
         verify(userRepository, never()).save(any());

@@ -1,6 +1,7 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
-import com.pragma.powerup.application.dto.request.NewUserRequestDto;
+import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.handler.IUserHandler;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,36 +29,27 @@ public class UserRestController {
             @ApiResponse(responseCode = "201", description = "owner created", content = @Content),
             @ApiResponse(responseCode = "409", description = "owner already exists", content = @Content)
     })
-    @PostMapping("/save")
-    public ResponseEntity<Map<String, String>> saveOwner(@RequestBody NewUserRequestDto userRequestDto) {
-        userHandler.saveOwner(userRequestDto);
+    @PostMapping("/saveOwner")
+    public ResponseEntity<Map<String, String>> saveOwner(@RequestBody OwnerRequestDto ownerRequestDto) {
+        userHandler.saveOwner(ownerRequestDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(Collections.singletonMap("message", "user created successfully"));
+                .body(Collections.singletonMap("message", "owner created successfully"));
 
     }
 
-    @Operation(summary = "Get user by Id")
+    @Operation(summary = "Add a employee")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "User founded by Id",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(
-                                    implementation = UserResponse.class
-                            )
-                    )
-            ),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request. Field missing",
-                    content = @Content
-            )
+            @ApiResponse(responseCode = "201", description = "employee created", content = @Content),
+            @ApiResponse(responseCode = "409", description = "employee already exists", content = @Content)
     })
-    @GetMapping("/id/{id}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id){
-        return ResponseEntity.ok(userHandler.getUserById(id));
+    @PostMapping("/saveEmployee")
+    public ResponseEntity<Map<String, String>> saveEmployee(@RequestBody EmployeeRequestDto employeeRequestDto) {
+        userHandler.saveEmployee(employeeRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Collections.singletonMap("message", "employee created successfully"));
+
     }
 
 }

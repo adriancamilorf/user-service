@@ -3,7 +3,7 @@ package com.pragma.powerup.infrastructure.input.rest;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.pragma.powerup.application.dto.request.NewUserRequestDto;
+import com.pragma.powerup.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.handler.IUserHandler;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ class UserRestControllerTest {
 
     @Test
     void testSaveOwner() {
-        NewUserRequestDto userRequestDto = new NewUserRequestDto();
+        OwnerRequestDto userRequestDto = new OwnerRequestDto();
         userRequestDto.setName("John");
         userRequestDto.setLastName("Doe");
         userRequestDto.setEmail("john.doe@example.com");
@@ -44,24 +44,4 @@ class UserRestControllerTest {
         assertEquals("user created successfully", result.getBody().get("message"));
     }
 
-    @Test
-    void testGetUserById() {
-        Long userId = 1L;
-
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(userId);
-        userResponse.setName("John");
-        userResponse.setLastName("Doe");
-        userResponse.setEmail("john.doe@example.com");
-
-        when(userHandler.getUserById(userId)).thenReturn(userResponse);
-
-        ResponseEntity<UserResponse> result = userRestController.getUserById(userId);
-
-        verify(userHandler, times(1)).getUserById(userId);
-
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertNotNull(result.getBody());
-        assertEquals(userResponse, result.getBody());
-    }
 }

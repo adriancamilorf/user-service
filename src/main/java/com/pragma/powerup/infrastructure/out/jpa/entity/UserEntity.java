@@ -24,7 +24,6 @@ public class UserEntity {
     private String documentNumber;
     @Column(nullable = false,length = 13, unique = true)
     private String phone;
-    @Column(nullable = false)
     private LocalDate birthdate;
     @Column(nullable = false,length = 80,unique = true)
     private String email;

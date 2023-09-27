@@ -2,19 +2,16 @@ package com.pragma.powerup.application.dto.request;
 
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OwnerRequestDto {
+public class EmployeeRequestDto {
     private String name;
     private String lastName;
     private String documentNumber;
     private String phone;
-    private LocalDate birthdate;
     private String email;
     private String password;
 }
