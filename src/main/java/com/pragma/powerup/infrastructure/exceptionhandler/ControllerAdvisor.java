@@ -43,4 +43,10 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(MESSAGE, "El numero celular ya se encuentra registrado"));
     }
 
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleEmailNotFoundException(EmailNotFoundException emailNotFoundException) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, "Ingrese un email valido"));
+    }
+
 }
