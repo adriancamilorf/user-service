@@ -19,7 +19,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     private final IUserEntityMapper userEntityMapper;
 
     @Override
-    public void saveOwner(UserModel owner) {
+    public void saveUser(UserModel owner) {
         if(userRepository.findByEmail(owner.getEmail()).isPresent()){
             throw new EmailAlreadyExistException();
         }

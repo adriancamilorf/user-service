@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class NewUserRequestDto {
+public class OwnerRequestDto {
     private String name;
     private String lastName;
     private String documentNumber;

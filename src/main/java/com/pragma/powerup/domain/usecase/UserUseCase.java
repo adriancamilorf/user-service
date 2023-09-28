@@ -28,10 +28,20 @@ public class UserUseCase implements IUserServicePort {
             owner.setPassword(passwordEncode);
             roleOwner.setId(2L);
             owner.setRoleModel(roleOwner);
-            userPersistencePort.saveOwner(owner);
+            userPersistencePort.saveUser(owner);
         }else{
             throw new UnderAgeException();
         }
+    }
+
+    @Override
+    public void saveEmployee(UserModel owner) {
+            RoleModel roleOwner = new RoleModel();
+            String passwordEncode= passwordEncoder.encodePassword(owner.getPassword());
+            owner.setPassword(passwordEncode);
+            roleOwner.setId(3L);
+            owner.setRoleModel(roleOwner);
+            userPersistencePort.saveUser(owner);
     }
 
     @Override

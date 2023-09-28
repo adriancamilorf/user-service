@@ -1,9 +1,9 @@
 package com.pragma.powerup.application.handler.impl;
 
-import com.pragma.powerup.application.dto.request.NewUserRequestDto;
+import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.exception.InvalidRequestException;
-import com.pragma.powerup.application.handler.impl.UserHandler;
 import com.pragma.powerup.application.mapper.IUserRequestMapper;
 import com.pragma.powerup.application.mapper.IUserResponseMapper;
 import com.pragma.powerup.domain.api.IUserServicePort;
@@ -42,26 +42,26 @@ class UserHandlerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("userRequestDtoProvider")
-    void testSaveOwnerWithInvalidData(NewUserRequestDto newUserRequestDto, Class<? extends Exception> expectedException) {
+    @MethodSource("ownerRequestDtoProvider")
+    void testSaveOwnerWithInvalidData(OwnerRequestDto ownerRequestDto, Class<? extends Exception> expectedException) {
         UserModel userModelSimulated = new UserModel();
 
-        when(userRequestMapper.toUserModel(newUserRequestDto)).thenReturn(userModelSimulated);
+        when(userRequestMapper.toUserModel(ownerRequestDto)).thenReturn(userModelSimulated);
 
         if (expectedException != null) {
             Assertions.assertThrows(expectedException, () -> {
-                userHandler.saveOwner(newUserRequestDto);
+                userHandler.saveOwner(ownerRequestDto);
             });
         } else {
-            userHandler.saveOwner(newUserRequestDto);
+            userHandler.saveOwner(ownerRequestDto);
             verify(userServicePort).saveOwner(userModelSimulated);
         }
     }
 
-    private static Stream<Arguments> userRequestDtoProvider() {
+    private static Stream<Arguments> ownerRequestDtoProvider() {
         return Stream.of(
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("1007321243")
@@ -73,7 +73,7 @@ class UserHandlerTest {
                         null
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("100732124")
@@ -85,7 +85,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("1007321243a")
@@ -97,7 +97,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("1007321243")
@@ -109,7 +109,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("1007321243")
@@ -121,7 +121,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("1007321243")
@@ -133,7 +133,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .birthdate(LocalDate.of(2000, 3, 13))
                                 .documentNumber("1007321243")
@@ -145,7 +145,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        NewUserRequestDto.builder()
+                        OwnerRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("1007321243")
                                 .email("adrean@mail.com")
@@ -175,4 +175,108 @@ class UserHandlerTest {
         verify(userResponseMapper, times(1)).toUserResponse(user);
         Assertions.assertEquals(userResponse, result);
     }
+
+    @ParameterizedTest
+    @MethodSource("employeeRequestDtoProvider")
+    void testSaveEmployeeWithInvalidData(EmployeeRequestDto employeeRequestDto, Class<? extends Exception> expectedException) {
+        UserModel userModelSimulated = new UserModel();
+
+        when(userRequestMapper.toUserModel(employeeRequestDto)).thenReturn(userModelSimulated);
+
+        if (expectedException != null) {
+            Assertions.assertThrows(expectedException, () -> {
+                userHandler.saveEmployee(employeeRequestDto);
+            });
+        } else {
+            userHandler.saveEmployee(employeeRequestDto);
+            verify(userServicePort).saveEmployee(userModelSimulated);
+        }
+    }
+
+    private static Stream<Arguments> employeeRequestDtoProvider() {
+        return Stream.of(
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("adrian")
+                                .documentNumber("1007321243")
+                                .email("adrean@mail.com")
+                                .phone("3137623509")
+                                .password("12323122123")
+                                .lastName("Rodriguez")
+                                .build(),
+                        null
+                ),
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("adrian")
+                                .documentNumber("100732124")
+                                .email("adrean@mail.com")
+                                .phone("31376235")
+                                .password("12323122123")
+                                .lastName("Rodriguez")
+                                .build(),
+                        InvalidRequestException.class
+                ),
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("adrian")
+                                .documentNumber("1007321243a")
+                                .email("adrean@mail.com")
+                                .phone("3137623509")
+                                .password("12323122123")
+                                .lastName("Rodriguez")
+                                .build(),
+                        InvalidRequestException.class
+                ),
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("")
+                                .documentNumber("1007321243")
+                                .email("adrean@mail.com")
+                                .phone("3137623509")
+                                .password("12323122123")
+                                .lastName("Rodriguez")
+                                .build(),
+                        InvalidRequestException.class
+                ),
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("adrian")
+                                .documentNumber("1007321243")
+                                .email("adrean@mail.com")
+                                .phone("3137623509")
+                                .password("12323122123")
+                                .lastName("")
+                                .build(),
+                        InvalidRequestException.class
+                ),
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("adrian")
+                                .documentNumber("1007321243")
+                                .email("adrean@mail.com")
+                                .phone("3137623509")
+                                .password("")
+                                .lastName("perez")
+                                .build(),
+                        InvalidRequestException.class
+                ),
+                Arguments.of(
+                        EmployeeRequestDto.builder()
+                                .name("adrian")
+                                .documentNumber("1007321243")
+                                .email("adreanmail.com")
+                                .phone("3137623509")
+                                .password("1211312323")
+                                .lastName("perez")
+                                .build(),
+                        InvalidRequestException.class
+                ),
+                Arguments.of(
+                        null,
+                        InvalidRequestException.class
+                )
+        );
+    }
+
 }
