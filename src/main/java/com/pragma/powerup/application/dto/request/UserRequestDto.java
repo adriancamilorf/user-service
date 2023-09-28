@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class EmployeeRequestDto {
+public class UserRequestDto {
     private String name;
     private String lastName;
     private String documentNumber;

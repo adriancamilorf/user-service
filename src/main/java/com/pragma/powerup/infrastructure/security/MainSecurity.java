@@ -45,11 +45,10 @@ public class MainSecurity {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests(requests -> requests
-                        .antMatchers("/auth/login", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health", "/user/").permitAll()
-                        .antMatchers("/user/saveOwner").hasAuthority("ADMIN")
-                        .antMatchers("/user/saveEmployee").hasAuthority("OWNER")
-
-                        //.anyRequest().authenticated()
+                                .antMatchers("/auth/login", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/health").permitAll()
+                                .antMatchers("/user/saveOwner").hasAuthority("ADMIN")
+                                .antMatchers("/user/saveEmployee").hasAuthority("OWNER")
+                                .antMatchers("/user/saveClient").permitAll()
                 )
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
