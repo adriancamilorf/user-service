@@ -1,6 +1,6 @@
 package com.pragma.powerup.application.handler.impl;
 
-import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.UserRequestDto;
 import com.pragma.powerup.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.exception.InvalidRequestException;
@@ -177,26 +177,43 @@ class UserHandlerTest {
     }
 
     @ParameterizedTest
-    @MethodSource("employeeRequestDtoProvider")
-    void testSaveEmployeeWithInvalidData(EmployeeRequestDto employeeRequestDto, Class<? extends Exception> expectedException) {
+    @MethodSource("userRequestDtoProvider")
+    void testSaveEmployeeWithInvalidData(UserRequestDto userRequestDto, Class<? extends Exception> expectedException) {
         UserModel userModelSimulated = new UserModel();
 
-        when(userRequestMapper.toUserModel(employeeRequestDto)).thenReturn(userModelSimulated);
+        when(userRequestMapper.toUserModel(userRequestDto)).thenReturn(userModelSimulated);
 
         if (expectedException != null) {
             Assertions.assertThrows(expectedException, () -> {
-                userHandler.saveEmployee(employeeRequestDto);
+                userHandler.saveEmployee(userRequestDto);
             });
         } else {
-            userHandler.saveEmployee(employeeRequestDto);
+            userHandler.saveEmployee(userRequestDto);
             verify(userServicePort).saveEmployee(userModelSimulated);
         }
     }
 
-    private static Stream<Arguments> employeeRequestDtoProvider() {
+    @ParameterizedTest
+    @MethodSource("userRequestDtoProvider")
+    void testSaveClientWithInvalidData(UserRequestDto userRequestDto, Class<? extends Exception> expectedException) {
+        UserModel userModelSimulated = new UserModel();
+
+        when(userRequestMapper.toUserModel(userRequestDto)).thenReturn(userModelSimulated);
+
+        if (expectedException != null) {
+            Assertions.assertThrows(expectedException, () -> {
+                userHandler.saveClient(userRequestDto);
+            });
+        } else {
+            userHandler.saveClient(userRequestDto);
+            verify(userServicePort).saveEmployee(userModelSimulated);
+        }
+    }
+
+    private static Stream<Arguments> userRequestDtoProvider() {
         return Stream.of(
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("1007321243")
                                 .email("adrean@mail.com")
@@ -207,7 +224,7 @@ class UserHandlerTest {
                         null
                 ),
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("100732124")
                                 .email("adrean@mail.com")
@@ -218,7 +235,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("1007321243a")
                                 .email("adrean@mail.com")
@@ -229,7 +246,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("")
                                 .documentNumber("1007321243")
                                 .email("adrean@mail.com")
@@ -240,7 +257,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("1007321243")
                                 .email("adrean@mail.com")
@@ -251,7 +268,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("1007321243")
                                 .email("adrean@mail.com")
@@ -262,7 +279,7 @@ class UserHandlerTest {
                         InvalidRequestException.class
                 ),
                 Arguments.of(
-                        EmployeeRequestDto.builder()
+                        UserRequestDto.builder()
                                 .name("adrian")
                                 .documentNumber("1007321243")
                                 .email("adreanmail.com")

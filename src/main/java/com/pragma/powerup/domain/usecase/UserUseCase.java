@@ -45,6 +45,16 @@ public class UserUseCase implements IUserServicePort {
     }
 
     @Override
+    public void saveClient(UserModel client) {
+        RoleModel roleOwner = new RoleModel();
+        String passwordEncode= passwordEncoder.encodePassword(client.getPassword());
+        client.setPassword(passwordEncode);
+        roleOwner.setId(1L);
+        client.setRoleModel(roleOwner);
+        userPersistencePort.saveUser(client);
+    }
+
+    @Override
     public UserModel getUserById(Long id) {
         return userPersistencePort.getUserById(id);
     }

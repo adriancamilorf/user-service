@@ -1,6 +1,6 @@
 package com.pragma.powerup.application.handler.impl;
 
-import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.UserRequestDto;
 import com.pragma.powerup.application.dto.request.OwnerRequestDto;
 import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.handler.IUserHandler;
@@ -37,15 +37,27 @@ public class UserHandler implements IUserHandler {
     }
 
     @Override
-    public void saveEmployee(EmployeeRequestDto employeeRequestDto) {
-        validateNotNull(employeeRequestDto);
-        validateName(employeeRequestDto.getName());
-        validateLastName(employeeRequestDto.getLastName());
-        validateDocumentNumber(employeeRequestDto.getDocumentNumber());
-        validatePhone(employeeRequestDto.getPhone());
-        validateEmail(employeeRequestDto.getEmail());
-        validatePassword(employeeRequestDto.getPassword());
-        userServicePort.saveEmployee(userRequestMapper.toUserModel(employeeRequestDto));
+    public void saveEmployee(UserRequestDto userRequestDto) {
+        validateNotNull(userRequestDto);
+        validateName(userRequestDto.getName());
+        validateLastName(userRequestDto.getLastName());
+        validateDocumentNumber(userRequestDto.getDocumentNumber());
+        validatePhone(userRequestDto.getPhone());
+        validateEmail(userRequestDto.getEmail());
+        validatePassword(userRequestDto.getPassword());
+        userServicePort.saveEmployee(userRequestMapper.toUserModel(userRequestDto));
+    }
+
+    @Override
+    public void saveClient(UserRequestDto userRequestDto) {
+        validateNotNull(userRequestDto);
+        validateName(userRequestDto.getName());
+        validateLastName(userRequestDto.getLastName());
+        validateDocumentNumber(userRequestDto.getDocumentNumber());
+        validatePhone(userRequestDto.getPhone());
+        validateEmail(userRequestDto.getEmail());
+        validatePassword(userRequestDto.getPassword());
+        userServicePort.saveClient(userRequestMapper.toUserModel(userRequestDto));
     }
 
 

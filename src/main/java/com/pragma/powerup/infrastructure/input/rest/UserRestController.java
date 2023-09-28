@@ -1,12 +1,10 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
-import com.pragma.powerup.application.dto.request.EmployeeRequestDto;
+import com.pragma.powerup.application.dto.request.UserRequestDto;
 import com.pragma.powerup.application.dto.request.OwnerRequestDto;
-import com.pragma.powerup.application.dto.response.UserResponse;
 import com.pragma.powerup.application.handler.IUserHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -44,11 +42,25 @@ public class UserRestController {
             @ApiResponse(responseCode = "409", description = "employee already exists", content = @Content)
     })
     @PostMapping("/saveEmployee")
-    public ResponseEntity<Map<String, String>> saveEmployee(@RequestBody EmployeeRequestDto employeeRequestDto) {
-        userHandler.saveEmployee(employeeRequestDto);
+    public ResponseEntity<Map<String, String>> saveEmployee(@RequestBody UserRequestDto userRequestDto) {
+        userHandler.saveEmployee(userRequestDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(Collections.singletonMap("message", "employee created successfully"));
+
+    }
+
+    @Operation(summary = "Add a client")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "client created", content = @Content),
+            @ApiResponse(responseCode = "409", description = "client already exists", content = @Content)
+    })
+    @PostMapping("/saveClient")
+    public ResponseEntity<Map<String, String>> saveClient(@RequestBody UserRequestDto userRequestDto) {
+        userHandler.saveClient(userRequestDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(Collections.singletonMap("message", "client created successfully"));
 
     }
 
