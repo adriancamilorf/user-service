@@ -60,9 +60,4 @@ public class UserRestController {
         return ResponseEntity.ok(userHandler.getUserById(id));
     }
 
-
-
-
-
-
 }
